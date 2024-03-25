@@ -1,0 +1,39 @@
+version: '2'
+services:
+  db:
+    image: mongo:4.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    networks:
+      - db
+    volumes:
+      - db:/data/mongodb
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    container_name: app
+    environment:
+
+      - MONGO_URI=mongodb://mongoadmin:secret@mongodb:27017/mongodatabase?authSource=admin&authMechanism=SCRAM-SHA-1
+      - MONGO_DATABASE=mongodatabase
+    networks:
+      - db
+    depends_on:
+      - db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
