@@ -47,5 +47,5 @@
         env:
           GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |-
-          docker tag $IMAGE_NAME:latest 
-          docker tag $IMAGE_NAME:latest     
+          docker tag $IMAGE_NAME:latest #us-west2-docker.pkg.dev/images/$IMAGE_NAME:latest
+          #          
