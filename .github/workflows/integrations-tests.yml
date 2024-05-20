@@ -6,7 +6,11 @@ on:
       - development
       - "release-**"
       - main
-
+  push:
+        branches:
+          - development
+          - "release-**"
+          - main 
 jobs:
   build:
     name: Run Python Tests
